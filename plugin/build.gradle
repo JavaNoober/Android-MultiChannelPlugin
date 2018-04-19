@@ -1,13 +1,14 @@
 apply plugin: 'groovy'
+apply plugin: 'bintray-release'
 
 ext {
     projectName = "FcMultiChannelPlugin"
 }
 
-apply from: "../bintray.gradle"
+//apply from: "../bintray.gradle"
 
 group="fc.multi.channel"
-version="1.4.0"
+version="1.4.1"
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
@@ -37,5 +38,19 @@ dependencies {
 //uploadArchives {
 //    repositories.mavenDeployer {
 //        repository(url: 'file:libs')
+//        repository(url:uri('../repo'))
+//        pom.groupId = 'fc.plugin.multi.channel' // 组名
+//        pom.artifactId = 'plugin' // 插件名
+//        pom.version = '1.1.5' // 版本号
 //    }
 //}
+
+publish {
+    artifactId = 'plugin'
+    userOrg = rootProject.userOrg
+    groupId = rootProject.groupId
+    uploadName = rootProject.uploadName
+    publishVersion = rootProject.publishVersion
+    desc = rootProject.description
+    website = rootProject.website
+}

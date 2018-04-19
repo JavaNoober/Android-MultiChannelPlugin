@@ -21,7 +21,12 @@ class MultiChannelPlugin implements Plugin<Project> {
                 File apkFile = variant.outputs[0].outputFile
                 channelMaker.apkFile = apkFile
                 channelMaker.setup()
-                channelMaker.dependsOn "assemble${variantName}"
+                PluginExtension multiChannel = project.multiChannel
+                if(multiChannel.enableResGuard){
+                    channelMaker.dependsOn "resguard${variantName}"
+                }else {
+                    channelMaker.dependsOn "assemble${variantName}"
+                }
             }
 
             ChannelMaker channelMaker = project.tasks.create("packageMultiChannel", ChannelMaker)

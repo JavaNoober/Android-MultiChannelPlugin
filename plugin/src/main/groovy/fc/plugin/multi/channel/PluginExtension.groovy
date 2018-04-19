@@ -13,6 +13,7 @@ class PluginExtension {
     String keyAliasPassword
     ChannelConfig channel
     String apkName = DEFAULT_APK_NAME
+    boolean enableResGuard
     JiaGuConfig jiagu
 
     PluginExtension(ChannelConfig channel, JiaGuConfig jiagu) {

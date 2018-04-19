@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'multiChannel'
+apply plugin: 'AndResGuard'
 
 buildscript {
     repositories {
-        maven { url "http://dl.bintray.com/403462630/maven" }
-//        maven {
-//            url uri('../plugin/libs')
-//        }
+//        maven { url "http://dl.bintray.com/403462630/maven" }
+        maven {
+            url uri('../plugin/libs')
+        }
     }
     dependencies {
-        classpath 'fc.multi.channel:plugin:1.4.0'
+        classpath 'fc.multi.channel:plugin:1.4.1'
     }
 }
 repositories {
@@ -18,7 +19,7 @@ repositories {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion '27.0.3'
 
     signingConfigs {
         config {
@@ -55,8 +56,10 @@ multiChannel {
     storeFile file('../test.jks')
     keyAlias "test"
     keyAliasPassword "123456"
+    enableResGurard false
+
     jiagu {
-        isEnable true
+        isEnable false
         username '--'
         password "--"
         path "/Users/fangcan/Downloads/360jiagubao_mac/jiagu"
@@ -71,6 +74,31 @@ multiChannel {
     apkName "app-{code}-{id}-{name}-${android.defaultConfig.versionName}.apk"
 }
 
+andResGuard {
+    // mappingFile = file("./resource_mapping.txt")
+    mappingFile = null
+    // 当你使用v2签名的时候，7zip压缩是无法生效的。
+    use7zip = true
+    useSign = true
+    // 打开这个开关，会keep住所有资源的原始路径，只混淆资源的名字
+    keepRoot = false
+    //白名单配置 UM必须配置白名单 否则会提示找不到资源文件
+    whiteList = [
+            //for your icon
+            "R.mipmap.ic_launcher",
+    ]
+    compressFilePattern = [
+            "*.png",
+            "*.jpg",
+            "*.jpeg",
+            "*.gif",
+            "resources.arsc"
+    ]
+    sevenzip {
+        artifact = 'com.tencent.mm:SevenZip:1.2.9'
+        //path = "/usr/local/bin/7za"
+    }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -81,4 +109,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile "com.google.code.gson:gson:2.3.1"
     testCompile 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }

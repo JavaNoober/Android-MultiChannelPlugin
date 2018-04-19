@@ -1,3 +1,21 @@
+
+fork并增加功能：
+
+如果项目中使用了com.tencent.mm:SevenZip来压缩资源，multiChannel增加了参数enableResGuard来控制
+是否需要使用SevenZip来打包
+
+引入
+buildscript {
+    repositories {
+        maven { url "https://dl.bintray.com/noober/maven" }
+    }
+    dependencies {
+        classpath 'fc.plugin.multi.channel:plugin:1.1.5'
+    }
+}
+
+
+
 # Android-MultiChannelPlugin
 多渠道打包插件，支持添加额外的信息extInfo，并提供library 读取渠道id和extInfo，用法如下：
 
